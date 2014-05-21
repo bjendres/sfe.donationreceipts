@@ -22,6 +22,9 @@ require_once 'donationreceipts.civix.php';
 
 require_once 'backend.php';
 
+// number of years for which the annual receipt is offered
+define('DONATIONRECEIPTS_YEAR_COUNT', 5);
+
 /**
  * Implementation of hook_civicrm_config
  */
@@ -97,7 +100,7 @@ function donationreceipts_civicrm_alterContent(&$content, $context, $tplName, &$
     $result = civicrm_api("CustomGroup", "get", array('version' => '3', 'name' => CUSTOM_TABLE_NAME));
     if ($object->_groupId == $result['id']) {
       $bescheinigungen = array();
-      for ($year = date("Y") - 1; $year <= date("Y"); $year++) {
+      for ($year = date("Y"); $year > date("Y")-DONATIONRECEIPTS_YEAR_COUNT; $year--) {
         $url = CRM_Utils_System::url("civicrm/donationreceipts/zuwendungsbescheinigung", "snippet=1&cid={$object->_contactId}&year=$year");
         $bescheinigungen[$year] = $url;
       }
