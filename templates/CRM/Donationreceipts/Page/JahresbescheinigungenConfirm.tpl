@@ -24,10 +24,10 @@ p {
 {/literal}
 </style>
 
-<p><strong>Achtung: Es gibt derzeit keinen einfachen Weg, das Erzeugen der Jahresbescheinigungen für alle Kontakte rückgängig zu machen!</strong></p>
+<p><strong>Achtung: Es gibt derzeit keinen einfachen Weg, das Erzeugen der Jahresbescheinigungen f&uuml;r alle Kontakte r&uuml;ckg&auml;ngig zu machen!</strong></p>
 
 <p><a href="{$confirm_url}">Jahresbescheinigungen {$year} erstellen</a></p>
 
-<p><strong>Hinweis:</strong> Das Erzeugen aller Jahresbescheinigungen kann sehr lange dauern. Der Browser sollte während dieser Zeit anzeigen, dass er auf den Server wartet. Das ist <em>kein</em> Fehler -- bitte nicht versuchen, den Link erneut anzuklicken...</p>
+<p><strong>Hinweis:</strong> Das Erzeugen aller Jahresbescheinigungen kann sehr lange dauern. Der Browser sollte w&auml;hrend dieser Zeit anzeigen, dass er auf den Server wartet. Das ist <em>kein</em> Fehler -- bitte nicht versuchen, den Link erneut anzuklicken...</p>
 
-<p>Sollte der Browser mit einem Timeout abbrechen, wird der Vorgang auf dem Server im Hintergrund fortgesetzt. Sobald alle Bescheinigungen erstellt sind, steht das fertige Sammeldokument bei den Bescheinigungen des auslösenden Nutzers zur Verfügung.</p>
+<p>Sollte der Browser mit einem Timeout abbrechen, wird der Vorgang auf dem Server im Hintergrund fortgesetzt. Sobald alle Bescheinigungen erstellt sind, steht das fertige Sammeldokument bei den Bescheinigungen des ausl&ouml;senden Nutzers zur Verf&uuml;gung.</p>

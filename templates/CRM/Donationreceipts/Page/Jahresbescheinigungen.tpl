@@ -26,7 +26,7 @@ p {
 </style>
 
 {if !$have_result}
-<p><strong>Keine unbescheinigten Zuwendungen für diesen Zeitraum.</strong></p>
+<p><strong>Keine unbescheinigten Zuwendungen f&uuml;r diesen Zeitraum.</strong></p>
 <p>Jahresbescheinigungen vielleicht bereits erstellt?</p>
 {else}
 <p>Alle Jahresbescheinigungen erfolgreich erstellt.</p>

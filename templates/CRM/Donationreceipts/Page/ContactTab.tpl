@@ -38,7 +38,7 @@ ul.inline li {
 </style>
 
 <div id='actions'>
-  Zuwendungsbescheinigung erstellen für:
+  Zuwendungsbescheinigung erstellen f&uuml;r:
   <ul class='inline'>
     {foreach from=$bescheinigungen key=label item=url}
       <li><a target="_blank" href='{$url}'>{$label}</a></li>

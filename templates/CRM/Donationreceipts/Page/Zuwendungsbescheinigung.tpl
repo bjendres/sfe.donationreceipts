@@ -18,9 +18,9 @@
 *}
 
 {if !$url}
-<strong>Keine unbescheinigten Zuwendungen für diesen Zeitraum.</strong>
+<strong>Keine unbescheinigten Zuwendungen f&uuml;r diesen Zeitraum.</strong>
 {else}
-<p>Zuwendungsbescheinigung für den Zeitraum vom {$from_date} bis {$to_date} erstellt.</p>
+<p>Zuwendungsbescheinigung f&uuml;r den Zeitraum vom {$from_date} bis {$to_date} erstellt.</p>
 
 <p><a href='{$url}'>Bescheinigung herunterladen</a></p>
 
