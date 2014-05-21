@@ -154,6 +154,14 @@ function get_docs_table()
   return $docs;
 }
 
+function getMessageTemplateBAOClass() {
+  if (version_compare(CRM_Utils_System::version(), '4.4') >= 0) {
+    return CRM_Core_BAO_MessageTemplate;
+  } else {
+    return CRM_Core_BAO_MessageTemplates;
+  }
+}
+
 define('OPTION_GROUP_NAME', 'msg_tpl_workflow_donationreiceipts');
 
 /* Create or upgrade receipt template.
@@ -163,6 +171,8 @@ define('OPTION_GROUP_NAME', 'msg_tpl_workflow_donationreiceipts');
  * otherwise, replace only the fallback copy used for reverting. */
 function setup_template()
 {
+  $messageTemplateBAOClass = getMessageTemplateBAOClass();
+
   $new_html = file_get_contents(__DIR__ . '/templates/receipt.html');
 
   $existing = civicrm_api(
@@ -198,7 +208,7 @@ function setup_template()
     if (civicrm_error($new))
       CRM_Core_Error::fatal("Optionsgruppe und -felder fuer Bescheinigungs-Template konnten nicht angelegt werden: {$new['error_message']}");
 
-    /* There is no API yet for adding message templates, so need to do it "by hand" through BAO. */
+    /* There was no API for adding message templates before CiviCRM 4.4 -- so need to do it "by hand" through BAO. */
     $new_value = $new['values'][$new['id']]['api.OptionValue.create'][0];
     /* Create an active (editable) entry, as well as a reserved fallback copy for the "Revert to Default" functionality. */
     foreach (array(false, true) as $reserved) {
@@ -210,12 +220,12 @@ function setup_template()
         'is_default' => !$reserved,    /* The editable (non-reserved) entry is the one actually used/visible in the application. */
         'is_reserved' => $reserved,
       );
-      CRM_Core_BAO_MessageTemplates::add($params);
+      $messageTemplateBAOClass::add($params);
     }
 
   } else {    /* Already have some template stored => upgrade to the version we are shipping. */
 
-    $messageTemplates = new CRM_Core_BAO_MessageTemplates();
+    $messageTemplates = new $messageTemplateBAOClass();
     $messageTemplates->workflow_id = $existing['values'][$existing['id']]['api.OptionValue.get']['values'][0]['id'];
     $messageTemplates->find();
     while ($messageTemplates->fetch()) {
@@ -229,7 +239,7 @@ function setup_template()
       }
     }
     if ($old_active_html == $old_fallback_html) {    /* Template has not been modified by user => also upgrade active template. */
-      CRM_Core_BAO_MessageTemplates::revert($active_id);
+      $messageTemplateBAOClass::revert($active_id);
     }
   }    /* have $existing */
 }    /* setup_templates() */
@@ -241,6 +251,8 @@ function setup_template()
  */
 function get_template()
 {
+  $messageTemplateBAOClass = getMessageTemplateBAOClass();
+
   $result = civicrm_api(
     'OptionGroup',
     'get',
@@ -258,7 +270,7 @@ function get_template()
   $workflow_id = $result['values'][$result['id']]['api.OptionValue.get']['id'];
 
   $params = array('workflow_id' => $workflow_id);
-  $template = CRM_Core_BAO_MessageTemplates::retrieve($params, $_);
+  $template = $messageTemplateBAOClass::retrieve($params, $_);
 
   return array($template->msg_html, $template->pdf_format_id);
 }
@@ -317,6 +329,13 @@ function generate_receipts($params)
     $and_contact_ids = "AND a.id IS NOT NULL";
   }
 
+  /* Name of table with contribution types differs between CiviCRM versions */
+  if (version_compare(CRM_Utils_System::version(), '4.3') >= 0) {
+    $financial_type = 'financial_type';
+  } else {
+    $financial_type = 'contribution_type';
+  }
+
   $query = " SELECT p.id
                   , p.addressee_display
                   , p.display_name
@@ -331,8 +350,8 @@ function generate_receipts($params)
                   , DATE(c.receive_date) AS date
                   , c.total_amount
                   , IF(
-                      contribution_type_id IN (
-                        SELECT id FROM civicrm_contribution_type WHERE name LIKE '%Mitgliedsbeitrag%' OR name LIKE '%mitgliedsbeitrag%'
+                      {$financial_type}_id IN (
+                        SELECT id FROM civicrm_{$financial_type} WHERE name LIKE '%Mitgliedsbeitrag%' OR name LIKE '%mitgliedsbeitrag%'
                       ),
                       'Mitgliedsbeitrag',
                       'Geldzuwendung'
@@ -352,7 +371,7 @@ function generate_receipts($params)
               WHERE p.is_deleted = 0
                 AND docs.id IS NULL
                 AND c.receive_date BETWEEN '$from_date' AND '$to_date'
-                AND c.contribution_type_id IN (SELECT id FROM civicrm_contribution_type WHERE is_deductible)
+                AND c.{$financial_type}_id IN (SELECT id FROM civicrm_{$financial_type} WHERE is_deductible)
                $and_contact_ids
            ORDER BY c.contact_id
                   , c.receive_date
