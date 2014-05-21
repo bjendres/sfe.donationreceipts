@@ -1,0 +1,22 @@
+1.1.4
+ - Fix automatic info.xml update...
+
+1.1.3
+ - More automated release process -- hopefully should avoid botched release dates like in 1.1.2...
+
+1.1.2
+ - Fix automatic installation from extension directory
+
+1.1.1
+ - Declare as stable
+ - Default template fix ("Gesamtbetrag" in collective receipts)
+
+1.1
+ - Update default template according to new official forms
+ - More closely reproduce official forms
+
+1.0.1
+ - Packaging-related improvements
+
+1.0.0
+ - First semi-public release

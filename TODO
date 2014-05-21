@@ -1,0 +1,6 @@
+- Check appropriate user permissions (e.g. "access contributions")
+- Improve user interface when generating individual receipts
+   - Also add shortcut menu action(s) for individual receipts generation
+- More elegant and powerful approach for receipts batch generation: based on a custom search and search results action
+- Associate receipts more directly with the contributions they belong to: possibly integrating with the upstream "receipt" functionality, and/or using activities
+   - This should also allow for some straightforward method for undoing a complete receipts batch run

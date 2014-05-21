@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<menu>
+  <item>
+    <path>civicrm/donationreceipts/zuwendungsbescheinigung</path>
+    <page_callback>CRM_Donationreceipts_Page_Zuwendungsbescheinigung</page_callback>
+    <title>Zuwendungsbescheinigung</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/donationreceipts/jahresbescheinigungen</path>
+    <page_callback>CRM_Donationreceipts_Page_Jahresbescheinigungen</page_callback>
+    <title>Jahresbescheinigungen</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+  <item>
+    <path>civicrm/donationreceipts/jahresbescheinigungen/confirm</path>
+    <page_callback>CRM_Donationreceipts_Page_JahresbescheinigungenConfirm</page_callback>
+    <title>Jahresbescheinigungen bestaetigen</title>
+    <access_arguments>access CiviCRM</access_arguments>
+  </item>
+</menu>
