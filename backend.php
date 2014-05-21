@@ -420,6 +420,10 @@ function generate_receipts($params)
       if (empty($name)) $name = trim($res->display_name);
       if (empty($name)) $name = trim($res->first_name)." ".trim($res->last_name);
 
+      // look up translated country
+      $ts_country = CRM_Core_PseudoConstant::country($res->country_id);
+      if (empty($ts_country)) $ts_country = '';
+
       $address = array(
            "contact_id"           => $res->id,
            "street_address_plain" => $res->street_address,
@@ -427,7 +431,7 @@ function generate_receipts($params)
            "city"                 => $res->city.$tail,
            "city_plain"           => $res->city,
            "country"              => $res->country,
-           "country_ts"           => CRM_Core_PseudoConstant::country($res->country_id),
+           "country_ts"           => $ts_country,
            "postal_code"          => $res->postal_code,
            "name"                 => $name
 		       );
