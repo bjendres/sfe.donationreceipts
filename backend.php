@@ -346,6 +346,7 @@ function generate_receipts($params)
                   , a.supplemental_address_2
                   , a.postal_code
                   , a.city
+                  , a.country_id
                   , s.name as country
                   , DATE(c.receive_date) AS date
                   , c.total_amount
@@ -401,7 +402,7 @@ function generate_receipts($params)
       if (!empty($res->supplemental_address_1)) {
         $street_address .= $res->supplemental_address_1."<br/>";
       } else {
-	$tail .= "<br/>";
+        $tail .= "<br/>";
       }
       if (!empty($res->supplemental_address_2)) {
         $street_address .= $res->supplemental_address_2."<br/>";
@@ -416,14 +417,19 @@ function generate_receipts($params)
       $street_address .= $res->street_address;
 
       $name = trim($res->addressee_display);
-      if (empty($name)) $name =  trim($res->display_name);
+      if (empty($name)) $name = trim($res->display_name);
       if (empty($name)) $name = trim($res->first_name)." ".trim($res->last_name);
 
-      $address = array("contact_id"     => $res->id,
-		       "street_address" => $street_address,
-		       "city"           => $res->city.$tail,
-		       "postal_code"    => $res->postal_code,
-		       "name"           => $name
+      $address = array(
+           "contact_id"           => $res->id,
+           "street_address_plain" => $res->street_address,
+           "street_address"       => $street_address,
+           "city"                 => $res->city.$tail,
+           "city_plain"           => $res->city,
+           "country"              => $res->country,
+           "country_ts"           => CRM_Core_PseudoConstant::country($res->country_id),
+           "postal_code"          => $res->postal_code,
+           "name"                 => $name
 		       );
     }
 
